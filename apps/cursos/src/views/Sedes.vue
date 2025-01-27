@@ -1,0 +1,127 @@
+<script setup>
+
+    import { useAuthStore } from '@/stores/auth'
+    import { onMounted} from 'vue'
+    import { useSedesStore } from '@/stores/sedes'
+
+    const auth = useAuthStore()
+    const store = useSedesStore()
+
+    onMounted(() => {
+        store.fetch()
+        store.fetchZonas()
+    })
+
+</script>
+
+<template>
+    <Card class="bg-white pt-8 pb-2 px-2 lg:px-8">
+        <h1 class="text-2xl text-gray-500 font-semibold">Sedes</h1>
+        <div v-if="auth.checkPermission('crear sede')" class="flex justify-center">
+            <Tool-Tip message="Crear nueva sede" class="-mt-8 text-color-4">
+                <Button @click="store.modal.new = true" icon="fas fa-plus" class="btn-primary" />
+            </Tool-Tip>
+        </div>
+        <Data-Table v-if="auth.checkPermission('ver sedes')" :headers="store.headers" :data="store.sedes" :loading="store.loading.fetch" :export="auth.checkPermission('exportar sedes')">
+            <template #estatus="{item}">
+                <Icon :icon="item.estatus === 'I' ? 'fas fa-xmark' : 'fas fa-check'" :class="item.estatus === 'I' ? 'text-red-500' : 'text-green-500'"/>
+            </template>
+            <template #actions="{item}">
+                <div class="relative">
+                    <Drop-Down-Button icon="fas fa-ellipsis-vertical">
+                        <ul class="grid gap-3 text-violet-500">
+                            <li v-if="auth.checkPermission('editar sede')" @click="store.edit(item)" class="hover:font-medium cursor-pointer">
+                                Editar
+                            </li>
+                            <hr>
+                            <template v-if="auth.checkPermission('eliminar sede')">
+                                <li v-if="item.estatus==='A'" @click="store.deleteItem(item)" class="hover:font-medium cursor-pointer">
+                                    Eliminar
+                                </li>
+                            </template>
+                        </ul>
+                    </Drop-Down-Button>
+                </div>
+            </template>
+        </Data-Table>
+    </Card>
+    <!-- AREA DE MODALES -->
+    <Modal :open="store.modal.new" icon="fas fa-building" title="Crear nueva sede">
+        <template #close>
+            <Icon @click="store.resetData" icon="fas fa-xmark" class="text-violet-200 text-xl hover:scale-125 cursor-pointer" />
+        </template>
+        <div class="grid gap-3">
+            <Input v-model="store.sede.id_zona" option="select" title="zona" :error="store.errors.hasOwnProperty('id_zona')">
+                <option value=""> --seleccione-- </option>
+                <option v-for="zona in store.zonas" :value="zona.id_zona">{{ zona.descripcion }}</option>
+            </Input>
+            <Input v-model="store.sede.descripcion" option="label" title="descripcion sede" :error="store.errors.hasOwnProperty('descripcion')" />
+            <Input v-model="store.sede.direccion" option="label" title="dirección sede" :error="store.errors.hasOwnProperty('direccion')" />
+            <Input v-model="store.sede.distrito" option="label" title="distrito sede" :error="store.errors.hasOwnProperty('distrito')" />
+        </div>
+
+        <Validate-Errors :errors="store.errors" v-if="store.errors != 0" />
+
+        <template #footer>
+            <Button @click="store.resetData" text="Cancelar" icon="fas fa-xmark" class="btn-secondary" />
+            <Button @click="store.store" text="Crear" icon="fas fa-plus" class="btn-primary" :loading="store.loading.store" />
+        </template>
+    </Modal>
+
+    <Modal :open="store.modal.edit" title="Editar sede" icon="fas fa-building">
+        <template #close>
+            <Icon @click="store.resetData" icon="fas fa-xmark" class="text-violet-200 text-xl hover:scale-125 cursor-pointer" />
+        </template>
+        <div class="grid gap-3">
+            <div v-if="store.sede.estatus === 'I'" class="flex justify-end">
+                <div class="flex gap-3 text-gray-500">
+                    <span>Activo</span>
+                    <Switch :values="['I','A']" v-model="store.sede.estatus" class="bg-gray-400 w-12 has-[:checked]:bg-color-4"/>
+                    <span>Inactivo</span>
+                </div>
+            </div>
+            <Input v-model="store.sede.id_zona" option="select" title="zona" :error="store.errors.hasOwnProperty('id_zona')">
+                <option value=""> --seleccione-- </option>
+                <option v-for="zona in store.zonas" :value="zona.id_zona">{{ zona.descripcion }}</option>
+            </Input>
+            <Input v-model="store.sede.descripcion" option="label" title="descripcion sede" :error="store.errors.hasOwnProperty('descripcion')" />
+            <Input v-model="store.sede.direccion" option="label" title="dirección sede" :error="store.errors.hasOwnProperty('direccion')" />
+            <Input v-model="store.sede.distrito" option="label" title="distrito sede" :error="store.errors.hasOwnProperty('distrito')" />
+        </div>
+
+        <Validate-Errors :errors="store.errors" v-if="store.errors != 0" />
+        
+        <template #footer>
+            <Button @click="store.resetData" text="Cancelar" icon="fas fa-xmark" class="btn-secondary" />
+            <Button @click="store.update" text="Actualizar" icon="fas fa-rotate" class="btn-primary" :loading="store.loading.update" />
+        </template>
+    </Modal>
+
+    <Modal :open="store.modal.delete">
+        <div class="flex items-center gap-4">
+            <Icon icon="fas fa-triangle-exclamation" class="text-6xl text-orange-500" />
+            <div class="grid">
+                <h1>¿Esta seguro de eliminar el sede?</h1>
+                <h2 class="text-center font-semibold text-xl">{{ store.sede.nombre }}</h2>
+            </div>
+        </div>
+        <template #footer>
+            <Button @click="store.resetData" text="Cancelar" icon="fas fa-xmark" class="btn-secondary" />
+            <Button @click="store.destroy" text="Sí, estoy seguro" icon="fas fa-check" class="btn-danger" :loading="store.loading.destroy" />
+        </template>
+    </Modal>
+</template>
+
+<style scoped>
+    select, input {
+        @apply border border-gray-300 rounded-lg w-full px-2 h-9;
+    }
+
+    th {
+        @apply text-center uppercase font-normal text-sm;
+    }
+
+    td {
+        @apply px-2;
+    }
+</style>
