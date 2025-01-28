@@ -434,7 +434,7 @@ onMounted(() => {
                     <th v-if="props.multiSelect">
                         <input type="checkbox" ref="selectAll" @change="selectAllItems">
                     </th>
-                    <th v-for="(head, index) in props.headers" :key="index" @click="sort(head.key, head.type)" scope="col" class="px-4 py-3.5 text-color-4 text-sm font-normal cursor-pointer select-none" :width="head.width" :align="head.align ?? 'left'" :hidden="head.hidden">
+                    <th v-for="(head, index) in props.headers" :key="index" @click="sort(head.key, head.type)" scope="col" class="px-4 py-3.5 text-color-4 text-xs cursor-pointer select-none" :width="head.width" :align="head.align ?? 'left'" :hidden="head.hidden">
                         <div class="flex gap-1">
                             <span v-if="sortColumn === head.key">
                                 {{ sortDir === 'asc' ? '▲' : '▼' }}
@@ -444,7 +444,7 @@ onMounted(() => {
                     </th>
                 </tr>
             </template>
-            <template #tbody class="bg-white divide-y divide-gray-200">
+            <template #tbody>
                 <slot name="tbody" :items="paginatedData">
                     <tr v-for="item in paginatedData" :key="item.id" class="hover:bg-violet-50 text-gray-800 select-none">
                         <td v-if="props.multiSelect" align="center"> 
@@ -452,7 +452,7 @@ onMounted(() => {
                         </td>
                         <td v-for="(head, index) in props.headers" class="px-4" :align="head.align ?? 'left'" :width="head.width" :key="index" :hidden="head.hidden">
                             <slot :name="head.key" :item="item">
-                                <p :class="head.class ?? 'text-sm'">
+                                <p :class="head.class ?? 'text-xs'">
                                     {{ typeValue(getObjectValue(item, head.key), head.type) }}
                                 </p>
                             </slot>

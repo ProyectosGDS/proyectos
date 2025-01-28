@@ -23,7 +23,7 @@ export const useClasesStore = defineStore('clases', () => {
         { title : 'capacidad', key : 'capacidad', width : '10px', align : 'center' },
         { title : 'estatus', key : 'estatus', width : '10px', align : 'center' },
         { title : 'creación', key : 'fechau', type : 'date' },
-        { title : 'acciones', key : 'actions', width : '10px', align : 'center' },
+        { title : '', key : 'actions', width : '10px', align : 'center' },
     ]
 
     const instructores = ref([])

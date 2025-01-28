@@ -8,7 +8,7 @@
 </script>
 
 <template>
-    <div class="w-full my-5">
+    <div class="my-5">
         <table class="w-full table-auto">
             <thead>
                 <slot name="thead"></slot>

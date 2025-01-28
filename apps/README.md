@@ -40,6 +40,17 @@ La **`plataforma-gds`** es un conjunto de proyectos de forma modular que pemirte
 ```
 El proyecto principal (plataforma-gds) tiene una carpeta llamada apps donde almacena los diferentes proyectos que conforman los módulos.
 
+Los proyectos que conforman la plataforma-gds son:
+
+    |- plataforma-gds //proyecto base
+        |- apps
+            |- admin // módulos
+            |- cursos // módulos
+            |- beneficiarios // módulos
+            |- eventos // módulos
+
+    |- participacion-ciudadana //este es otro proyecto base pero no tiene modulos
+
 ### .htaccess
 Cada proyecto o modulo de forma individual contiene un archivo .htaccess que permite el manejo de a las rutas interanas de cada proyecto o modulo. Las dos lineas que se modifican dependiendo de la localizacion del proyecto dentro del servidor.
 
