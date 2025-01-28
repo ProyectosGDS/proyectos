@@ -25,6 +25,10 @@ import ServerSide from '@/components/ServerSide.vue'
         pemsum : null
     })
 
+    function refresh (item) {
+        store.reload = item
+    }
+
     function verifyCui () {
         const cui = store.cui;
         clearCui()
@@ -144,6 +148,7 @@ import ServerSide from '@/components/ServerSide.vue'
 </script>
 
 <template>
+    {{ store.reload }}
     <Card class="bg-white pt-8 pb-2 px-2 lg:px-8">
         <h1 class="text-2xl text-gray-500 font-semibold">Beneficiarios</h1>
         <div v-if="auth.checkPermission('crear beneficiario')" class="flex justify-center">
@@ -186,7 +191,7 @@ import ServerSide from '@/components/ServerSide.vue'
                 </div>
             </template>
         </Data-Table> -->
-        <ServerSide :headers="store.headers" src="get-beneficiarios" :reload="store.reload" @reloadData="refresh()">
+        <ServerSide v-if="auth.checkPermission('ver beneficiarios')" :headers="store.headers" src="get-beneficiarios" :reload="store.reload" @reloadData="refresh">
             <template #sexo="{item}">
                 <Icon :icon="item.sexo == 'M' ? 'fas fa-person' : 'fas fa-person-dress'" :class="item.sexo == 'M' ? 'text-blue-500' : 'text-fuchsia-400'" />
             </template>

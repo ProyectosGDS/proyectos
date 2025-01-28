@@ -54,20 +54,23 @@ class BeneficiarioController extends Controller
 
     public function getBeneficiarios(Request $request) {
 
-
+        $search = $request->input('search') ?? '';
+        $column = $request->input('column') ?? 'id_persona';
+        $order = $request->input('order') ?? 'desc';
+        $per_page = $request->input('per_page') ?? 10;
 
         try {
-            $personas = personas::where(function($query) use($request) {
-                $query->where('cui','LIKE','%'.$request->search.'%')
+            $personas = personas::where(function($query) use($search) {
+                $query->where('cui','LIKE','%'.$search.'%')
                     ->orWhereRaw(
                         "LOWER(ConcatenarNombres(PRIMER_NOMBRE, SEGUNDO_NOMBRE, TERCER_NOMBRE, PRIMER_APELLIDO, SEGUNDO_APELLIDO, APELLIDO_CASADA)) LIKE ?",
-                        ["%" . strtolower($request->search) . "%"]
+                        ["%" . strtolower($search) . "%"]
                     )
-                    ->orWhere('celular','LIKE','%'. $request->search .'%')
-                    ->orWhere('email','LIKE','%'. $request->search .'%');
+                    ->orWhere('celular','LIKE','%'. $search .'%')
+                    ->orWhere('email','LIKE','%'. $search .'%');
             })
-            ->orderBy(($request->column === 'nombre_completo') ? 'primer_nombre' : $request->column,$request->order)
-            ->paginate($request->per_page);
+            ->orderBy(($column === 'nombre_completo') ? 'primer_nombre' : $column,$order)
+            ->paginate($per_page);
             return response($personas);
 
         } catch (\Throwable $th) {

@@ -11,7 +11,7 @@ Route::get('beneficiarios/catalogos',[BeneficiarioController::class,'catalogos']
 Route::get('beneficiarios/bitacoras/{beneficiario}',[BeneficiarioController::class,'bitacoras']);
 Route::post('beneficiarios/consulta-back-up',[BeneficiarioController::class,'consultaBackUp']);
 Route::post('beneficiarios/asignar-curso/{persona}',[BeneficiarioController::class,'asignarCurso']);
-Route::post('get-beneficiarios',[BeneficiarioController::class,'getBeneficiarios']);
+Route::get('get-beneficiarios',[BeneficiarioController::class,'getBeneficiarios']);
 
 Route::apiResource('beneficiarios',BeneficiarioController::class);
 Route::apiResource('historial',HistorialController::class)->only(['index','store']);

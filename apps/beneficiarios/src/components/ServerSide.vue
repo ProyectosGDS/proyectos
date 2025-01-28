@@ -23,7 +23,7 @@
         }
     })
 
-    const emits = defineEmits(['reloadData'])
+    const emits = defineEmits('reloadData')
 
     const page = ref(1)
     const search = ref('')
@@ -37,7 +37,7 @@
         total : 0,
     })
     const order = ref('desc')
-    const column = ref('id_persona')
+    const column = ref('')
     const loading = ref(false)
 
     const displayedPages =  computed(() => {
@@ -56,20 +56,29 @@
 
     })
 
-    const fetch = (page) => {
+    const fetch = async (page) => {
         loading.value = true
-        axios.post(page == undefined ? props.src : `${props.src}?page=${page}` ,{
-            'per_page' : paginate.value.per_page,
-            'search' : search.value,
-            'order' : order.value,
-            'column' : column.value
-        })
-        .then(response => {
-            data.value = response.data.data
-            paginate.value = response.data
-        })
-        .catch(err => console.error(err.response.data))
-        .finally(() => loading.value = false)
+        try {
+            const response = await axios.get(props.src,{
+                params : {
+                    page : page,
+                    per_page : paginate.value.per_page,
+                    search : search.value,
+                    order : order.value,
+                    column : column.value
+                }
+            })
+
+            const { data: rows, ...pagination } = response.data;
+            data.value = rows;
+            paginate.value = pagination;
+            emits('reloadData',false)
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            loading.value = false
+            reload.value = false
+        }
     }
 
     const changePage = (pag) => {
@@ -150,6 +159,7 @@
     }
 
     watchEffect(() => {
+
         if(props.reload) {
             fetch()
         }
