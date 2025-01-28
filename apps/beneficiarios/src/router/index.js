@@ -23,6 +23,22 @@ const router = createRouter({
 						auth : true
 					}
 				},
+				{
+					path: 'parentescos',
+					name: 'Parentescos',
+					component : () => import('@/views/Parentescos.vue'),
+					meta : {
+						auth : true
+					}
+				},
+				{
+					path: 'enfermedades',
+					name: 'Enfermedades',
+					component : () => import('@/views/Enfermedades.vue'),
+					meta : {
+						auth : true
+					}
+				},
 			]
 		},
 		{

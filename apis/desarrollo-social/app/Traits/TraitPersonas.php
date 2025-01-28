@@ -52,7 +52,7 @@ trait TraitPersonas {
             'interlocutor'   => $request->interlocutor ?? null,
             'telefono' => $request->telefono ?? null,
             'celular' => trim($request->celular),
-            'email' => $request->email,
+            'email' => strtolower($request->email),
             'facebook' => $request->facebook ?? null,
             'instagram' => $request->instagram ?? null,
             'tiktok' => $request->tiktok ?? null,
@@ -141,7 +141,7 @@ trait TraitPersonas {
         $emergencia = responsables::create([
             'id_persona' => $id_persona,
             'id_parentesco' => $request->emergencia['id_parentesco'],
-            'cui' => $request->emergencia['cui'],
+            'cui' => $request->emergencia['cui'] ?? null,
             'categoria' => 'E',
             'nombre' => strtoupper(trim($request->emergencia['nombre'])),
             'email' => $request->has('emergencia.email') ? strtolower($request->emergencia['email']) : null,
@@ -214,7 +214,7 @@ trait TraitPersonas {
             'interlocutor'      => $request->interlocutor ?? null,
             'telefono'          => $request->telefono ?? null,
             'celular'           => trim($request->celular),
-            'email'             => $request->email,
+            'email'             => strtolower($request->email),
             'facebook'          => $request->facebook ?? null,
             'instagram'         => $request->instagram ?? null,
             'tiktok'            => $request->tiktok ?? null,
@@ -297,7 +297,7 @@ trait TraitPersonas {
 
         $emergencia = $persona->emergencia()->update([
             'id_parentesco' => $request->emergencia['id_parentesco'],
-            'cui' => $request->emergencia['cui'],
+            'cui' => $request->emergencia['cui'] ?? null,
             'nombre' => strtoupper(trim($request->emergencia['nombre'])),
             'email' => $request->emergencia['email'] ? strtolower($request->emergencia['email']) : null,
             'celular' => $request->emergencia['celular'],

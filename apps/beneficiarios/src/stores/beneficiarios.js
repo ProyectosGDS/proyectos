@@ -13,12 +13,12 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
         { title : 'id', key : 'id_persona', type : 'numeric' },
         { title : 'dpi', key : 'cui' },
         { title : 'nombre', key : 'nombre_completo' },
-        { title : 'edad', key : 'edad', width : '10px', align : 'center' },
+        { title : 'edad', key : 'edad', width : '10px', align : 'center', sort : false },
         { title : 'sexo', key : 'sexo', width : '10px', align : 'center' },
         { title : 'celular', key : 'celular' },
-        { title : 'correo', key : 'email' },
+        { title : 'correo', key : 'email', class : 'lowercase' },
         { title : 'estatus', key : 'estatus', width : '10px', align : 'center' },
-        { title : 'acciones', key : 'actions', width : '10px', align : 'center' },
+        { title : '', key : 'actions', width : '10px', align : 'center', sort : false },
     ]
 
     const beneficiarios = ref([])
@@ -52,6 +52,7 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
         sync : false,
     })
 
+    const reload = ref(false)
 
     const errors = ref([])
     const messageCui = ref('Ingrese cui')
@@ -107,7 +108,8 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
         loading.value.store = true
         try {
             const response = await axios.post('beneficiarios',beneficiario.value)
-            fetch()
+            // fetch()
+            reload.value = true
             global.setAlert(response.data,'success')
             resetData()
         } catch (error) {
@@ -128,7 +130,8 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
         try {
             if (Object.keys(compareObjects(copyBeneficiario.value,beneficiario.value)).length > 0) {
                 const response = await axios.put('beneficiarios/' + beneficiario.value.id_persona,beneficiario.value)
-                fetch()
+                // fetch()
+                reload.value = true
                 global.setAlert(response.data,'success')
             }
             resetData()
@@ -296,6 +299,7 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
         beneficiario,
         asignacion,
         loading,
+        reload,
         modal,
         errors,
         messageCui,

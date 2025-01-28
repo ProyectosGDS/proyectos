@@ -13,6 +13,7 @@
     import DatosAcademicos from './datos/DatosAcademicos.vue'
     import DatosMedicos from './datos/DatosMedicos.vue'
     import { watchEffect } from 'vue'
+import ServerSide from '@/components/ServerSide.vue'
 
 
     const auth = useAuthStore()
@@ -77,7 +78,7 @@
     }
 
     onMounted(() => {
-        store.fetch()
+        // store.fetch()
         catalogos.fetch()
     })
 
@@ -150,7 +151,7 @@
                 <Button @click="store.modal.new = true" icon="fas fa-plus" class="btn-primary" />
             </Tool-Tip>
         </div>
-        <Data-Table v-if="auth.checkPermission('ver beneficiarios')" :headers="store.headers" :data="store.beneficiarios" :loading="store.loading.fetch" :export="auth.checkPermission('exportar beneficiarios')">
+        <!-- <Data-Table v-if="auth.checkPermission('ver beneficiarios')" :headers="store.headers" :data="store.beneficiarios" :loading="store.loading.fetch" :export="auth.checkPermission('exportar beneficiarios')">
             <template #sexo="{item}">
                 <Icon :icon="item.sexo == 'M' ? 'fas fa-person' : 'fas fa-person-dress'" :class="item.sexo == 'M' ? 'text-blue-500' : 'text-fuchsia-400'" />
             </template>
@@ -184,7 +185,42 @@
                     </Drop-Down-Button>
                 </div>
             </template>
-        </Data-Table>
+        </Data-Table> -->
+        <ServerSide :headers="store.headers" src="get-beneficiarios" :reload="store.reload" @reloadData="refresh()">
+            <template #sexo="{item}">
+                <Icon :icon="item.sexo == 'M' ? 'fas fa-person' : 'fas fa-person-dress'" :class="item.sexo == 'M' ? 'text-blue-500' : 'text-fuchsia-400'" />
+            </template>
+            <template #estatus="{item}">
+                <Icon :icon="item.estatus == 'A' ? 'fas fa-check' : 'fas fa-xmark'" :class="item.estatus == 'A' ? 'text-green-500': 'text-red-500'" />
+            </template>
+            <template #actions="{item}">
+                <div class="relative">
+                    <Drop-Down-Button icon="fas fa-ellipsis-vertical">
+                        <ul class="text-violet-500 text-nowrap">
+                            <li v-if="auth.checkPermission('editar beneficiario')" @click="store.edit(item.id_persona)">
+                                Editar
+                            </li>
+                            <li v-if="auth.checkPermission('asignar curso beneficiario')" @click="store.openSync(item)">
+                                Asignar curso
+                            </li>
+                            <li v-if="auth.checkPermission('observaciones beneficiario')" @click="bitacora.observacion(item)">
+                                Observaciones
+                            </li>
+                            <li v-if="auth.checkPermission('eliminar beneficiario')" @click="store.deleteItem(item)">
+                                Deshabilitar beneficiario
+                            </li>
+                            <hr>
+                            <li v-if="auth.checkPermission('ver bitacora beneficiario')" @click="bitacora.fetchBitacoras(item.id_persona)">
+                                Historial
+                            </li>
+                            <li v-if="auth.checkPermission('cambio estado beneficiario')" @click="store.openStatus(item)">
+                                Cambiar estado
+                            </li>
+                        </ul>
+                    </Drop-Down-Button>
+                </div>
+            </template>
+        </ServerSide>
     </Card>
 
     <!-- AREA DE MODALES -->

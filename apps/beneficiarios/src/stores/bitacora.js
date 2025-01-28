@@ -10,7 +10,7 @@ export const useBitacoraStore = defineStore('bitacora', () => {
     const global = useGlobalStore()
 
     const headersAsignaciones = [
-        { title : 'id_clase', key: 'id_clase', type : 'numeric' },
+        { title : 'id clase', key: 'id_clase', type : 'numeric' },
         { title : 'curso', key: 'clase.curso.nombre' },
         { title : 'sede', key: 'clase.sede.descripcion' },
         { title : 'creado por', key: 'creado_por.nombre' },
@@ -18,8 +18,8 @@ export const useBitacoraStore = defineStore('bitacora', () => {
     ]
 
     const headersHistorial = [
-        { title : 'accion', key : 'accion' },
-        { title : 'descripcion', key : 'descripcion' },
+        { title : 'acción', key : 'accion' },
+        { title : 'descripción', key : 'descripcion' },
         { title : 'usuario', key : 'creado_por.nombre' },
         { title : 'fecha', key : 'fechau', type : 'date' },
     ]

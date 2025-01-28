@@ -1,4 +1,4 @@
-<script setup>
+    <script setup>
 import axios from 'axios'
 import { onClickOutside } from '@vueuse/core'
 import { ref, computed, onMounted } from 'vue'
@@ -539,7 +539,7 @@ onMounted(() => {
 
 <style scoped>
 td {
-    @apply py-3 text-gray-800;
+    @apply py-1 text-gray-800;
 }
 
 th {

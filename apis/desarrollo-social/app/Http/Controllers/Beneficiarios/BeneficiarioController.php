@@ -52,6 +52,29 @@ class BeneficiarioController extends Controller
         }
     }
 
+    public function getBeneficiarios(Request $request) {
+
+
+
+        try {
+            $personas = personas::where(function($query) use($request) {
+                $query->where('cui','LIKE','%'.$request->search.'%')
+                    ->orWhereRaw(
+                        "LOWER(ConcatenarNombres(PRIMER_NOMBRE, SEGUNDO_NOMBRE, TERCER_NOMBRE, PRIMER_APELLIDO, SEGUNDO_APELLIDO, APELLIDO_CASADA)) LIKE ?",
+                        ["%" . strtolower($request->search) . "%"]
+                    )
+                    ->orWhere('celular','LIKE','%'. $request->search .'%')
+                    ->orWhere('email','LIKE','%'. $request->search .'%');
+            })
+            ->orderBy(($request->column === 'nombre_completo') ? 'primer_nombre' : $request->column,$request->order)
+            ->paginate($request->per_page);
+            return response($personas);
+
+        } catch (\Throwable $th) {
+            return response($th->getMessage());
+        }
+    }
+
     public function show(personas $beneficiario) {
         try {
             $beneficiario = $beneficiario->load([
@@ -342,7 +365,7 @@ class BeneficiarioController extends Controller
                     'clase.sede',
                 ])->latest('fechau')->get(),
                 'observaciones' => $beneficiario->historial_persona()->with(['creado_por'])->where('accion','OBSERVACION BENEFICIARIO')->latest('fechau')->get(),
-                'acciones' => $beneficiario->historial_persona()->with(['creado_por'])->whereNotIn('accion',['OBSERVACION BENEFICIARIO'])->get(),
+                'acciones' => $beneficiario->historial_persona()->with(['creado_por'])->whereNotIn('accion',['OBSERVACION BENEFICIARIO'])->latest('fechau')->get(),
             ];
             return response($bitacoras);
         } catch (\Throwable $th) {
