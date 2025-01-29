@@ -1,8 +1,9 @@
 <script setup>
     import { useCursosStore } from '@/stores/cursos'
     import { useInscripcionStore } from '@/stores/inscripcion'
+    import { useCatalogosStore } from '@/stores/catalogos'
 
-    import { computed, onBeforeMount, ref, watchEffect } from 'vue'
+    import { computed, onBeforeMount, watchEffect } from 'vue'
     
     import DatosPersonales from './Inscripcion/DatosPersonales.vue'
     import Domicilios from './Inscripcion/Domicilios.vue'
@@ -16,27 +17,20 @@
 
     const store = useCursosStore()
     const inscripcion = useInscripcionStore()
+    const catalogos = useCatalogosStore()
 
-    // const components = {
-    //     DatosPersonales,
-    //     Responsable,
-    //     Otros
-    // }
-
-    // const cupo = computed(() => {
-    //     return (store.curso.curso.cupo - store.curso.inscritos.length);
-    // })
+    const cupo = computed(() => {
+        return (parseInt(store.curso.capacidad) - parseInt(store.curso.personas_asignadas_count));
+    })
 
 
     watchEffect(() => {
         store.show(props.curso_id)
+        catalogos.fetchGrupoZona()
     })
 
     onBeforeMount(() => {
-
-        // inscripcion.fetchCatalogos()
-        // store.fieldFormByDirection()
-        
+        catalogos.fetch()
     })
     
 </script>
@@ -51,11 +45,7 @@
         </div>
         <br>
         <header class="w-full flex items-center justify-center h-48 bg-blue-muni rounded-lg overflow-hidden relative">
-                <!-- <img :src="store.curso.curso.imagen ? store.curso.curso.urlImage : '/public/img/foto-card.jpg'" 
-                         :alt="store.curso.curso.nombre" 
-                         class=" object-cover w-full object-center absolute blur-sm"> -->
             <h1 class="text-white text-3xl lg:text-7xl uppercase text-center drop-shadow-xl">
-                <!-- {{ store.curso?.curso.nombre + ' ' + store.curso.nivel?.nombre }} -->
                 {{ store.curso?.curso.nombre }}
             </h1>
         </header>
@@ -75,8 +65,7 @@
                         <li class="flex gap-3 items-center">
                             <Icon icon="fas fa-users"/>
                             <span class="font-medium">Cupo disponible :</span>
-                            <span>{{ store.curso?.capacidad }}</span>
-                            <!-- <span>{{ cupo }}</span> -->
+                            <span>{{ cupo }}</span>
                         </li>
                         <li class="flex gap-3 items-center">
                             <Icon icon="fas fa-chalkboard-user"/>
@@ -118,12 +107,12 @@
                     </p>
                 </div>
                 <div class="flex justify-center items-center">
-                    <Button @click="inscripcion.modal.new = true" icon="fas fa-thumbs-up" text="Inscribete" class="bg-blue-muni btn text-white rounded-full h-16 w-40 text-3xl self-center mx-auto" />
+                    <Button @click="inscripcion.inscripcion(props.curso_id)" icon="fas fa-thumbs-up" text="Inscribete" class="bg-blue-muni btn text-white rounded-full h-16 w-40 text-3xl self-center mx-auto" />
                 </div>
             </div>
         </div>
     </div>
-    <Modal :open="inscripcion.modal.new" title="Nuevo beneficiario" icon="fas fa-user-plus">
+    <Modal :open="inscripcion.modal.new" title="Pre inscripción" icon="fas fa-user-graduate">
         <template #close>
             <Icon @click="inscripcion.resetData()" icon="fas fa-xmark" class="text-white text-2xl cursor-pointer" />
         </template>
@@ -140,7 +129,7 @@
         <Validate-Errors v-if="inscripcion.errors != 0" :errors="inscripcion.errors" />
         <template #footer>
             <Button @click="inscripcion.resetData()" text="Cancelar" class="btn-secondary rounded-full" icon="fas fa-xmark" />
-            <Button text="Guardar" class="btn-primary rounded-full" icon="fas fa-save" :loading="store.loading.store" />
+            <Button @click="inscripcion.store" text="Guardar" class="btn-primary rounded-full" icon="fas fa-save" :loading="store.loading.store" />
         </template>
     </Modal>
 </template>

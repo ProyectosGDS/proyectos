@@ -148,7 +148,6 @@ import ServerSide from '@/components/ServerSide.vue'
 </script>
 
 <template>
-    {{ store.reload }}
     <Card class="bg-white pt-8 pb-2 px-2 lg:px-8">
         <h1 class="text-2xl text-gray-500 font-semibold">Beneficiarios</h1>
         <div v-if="auth.checkPermission('crear beneficiario')" class="flex justify-center">

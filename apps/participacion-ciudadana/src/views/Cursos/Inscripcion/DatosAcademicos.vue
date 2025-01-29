@@ -15,9 +15,10 @@
         <div class="grid xl:flex gap-4">
             <div class="grow">
                 <span class="uppercase">establecimiento educativo</span>
-                <input v-model="store.beneficiario.datos_academicos.establecimiento" type="text" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('datos_academicos.establecimiento')}" >
+                <input v-model="store.beneficiario.datos_academicos.establecimiento" type="text" maxlength="80" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('datos_academicos.establecimiento')}" >
             </div>
             <div class="grow">
+                <span class="text-red-500">*</span>
                 <span class="uppercase">escolaridad</span>
                 <select v-model="store.beneficiario.datos_academicos.id_escolaridad" class="input focus:outline-none uppercase" :class="{'border-red-400':store.errors.hasOwnProperty('datos_academicos.id_escolaridad')}">
                     <option value=""> -- SELECCIONE -- </option>
@@ -28,9 +29,10 @@
         <div class="grid xl:flex gap-4 items-center">
             <div class="grow">
                 <span class="uppercase">titulo o carrera</span>
-                <input v-model="store.beneficiario.datos_academicos.titulo" type="text" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('datos_academicos.titulo')}" >
+                <input v-model="store.beneficiario.datos_academicos.titulo" type="text" maxlength="80" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('datos_academicos.titulo')}" >
             </div>
             <div class="grow">
+                <span class="text-red-500">*</span>
                 <span class="uppercase">tipo de establecimiento</span>
                 <div class="flex items-center gap-3" :class="{'text-red-400' : store.errors.hasOwnProperty('datos_academicos.tipo_establecimiento')}">
                     <span>PUBLICO</span>

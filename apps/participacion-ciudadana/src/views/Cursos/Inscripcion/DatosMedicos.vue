@@ -30,11 +30,11 @@
         <div class="grid xl:flex gap-4">
             <div class="grow">
                 <span class="uppercase">¿ Toma algun medicamento ?</span>
-                <input v-model="store.beneficiario.datos_medicos.medicamentos" type="text" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('datos_medicos.medicamentos')}" >
+                <input v-model="store.beneficiario.datos_medicos.medicamentos" type="text" maxlength="100" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('datos_medicos.medicamentos')}" >
             </div>
             <div class="grow">
                 <span class="uppercase">¿ Dosis de medicamento ?</span>
-                <input v-model="store.beneficiario.datos_medicos.dosis" type="text" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('datos_medicos.dosis')}" >
+                <input v-model="store.beneficiario.datos_medicos.dosis" type="text" maxlength="100" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('datos_medicos.dosis')}" >
             </div>
         </div>
     </details>

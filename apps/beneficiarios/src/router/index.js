@@ -24,6 +24,14 @@ const router = createRouter({
 					}
 				},
 				{
+					path: 'verificacion-datos',
+					name: 'Verificación',
+					component : () => import('@/views/Verificacion.vue'),
+					meta : {
+						auth : true
+					}
+				},
+				{
 					path: 'parentescos',
 					name: 'Parentescos',
 					component : () => import('@/views/Parentescos.vue'),

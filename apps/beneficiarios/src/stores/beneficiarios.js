@@ -152,7 +152,8 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
         loading.value.destroy = true
         try {
             const response = await axios.delete('beneficiarios/' + beneficiario.value.id_persona)
-            fetch()
+            // fetch()
+            reload.value = true
             global.setAlert(response.data,'success')
             resetData()
         } catch (error) {

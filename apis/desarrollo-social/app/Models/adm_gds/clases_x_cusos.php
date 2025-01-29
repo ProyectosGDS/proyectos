@@ -28,6 +28,14 @@ class clases_x_cusos extends Model
 
     ];
 
+    // RELACIONES
+
+    public function personas_asignadas() {
+        return $this->hasMany(cursos_x_persona::class,'id_clase','id_clase')->whereIn('estatus',['A','P']);
+    }
+
+    // RELACIONES INVERSAS
+
     public function curso() {
         return $this->belongsTo(cursos::class,'id_curso','id_curso');
     }

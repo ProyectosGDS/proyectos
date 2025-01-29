@@ -64,7 +64,7 @@ class CursosController extends Controller
                 'temporalidad',
                 'horario',
                 'sede.zona',
-            ]));
+            ])->loadCount('personas_asignadas'));
 
         } catch (\Throwable $th) {
             return response($th->getMessage(),422);

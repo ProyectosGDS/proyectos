@@ -69,7 +69,7 @@ class BeneficiarioController extends Controller
                     ->orWhere('celular','LIKE','%'. $search .'%')
                     ->orWhere('email','LIKE','%'. $search .'%');
             })
-            ->orderBy(($column === 'nombre_completo') ? 'primer_nombre' : $column,$order)
+            ->orderBy(($column === 'nombre_completo') ? 'primer_nombre' : $column,$order)   
             ->paginate($per_page);
             return response($personas);
 

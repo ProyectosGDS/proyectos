@@ -47,6 +47,7 @@
             <br>
             <div class="flex flex-wrap gap-4">
                 <div class="grow">
+                    <span class="text-red-500">*</span>
                     <span class="uppercase">cui</span>
                     <input v-model="store.beneficiario.cui" type="text" maxlength="13" minlength="13" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('cui')}">
                 </div>
@@ -56,37 +57,39 @@
                 </div>
                 <div class="grow">
                     <span class="uppercase">pasaporte</span>
-                    <input v-model="store.beneficiario.pasaporte" type="text" class="input focus:outline-none" >
+                    <input v-model="store.beneficiario.pasaporte" type="text" maxlength="20" class="input focus:outline-none" >
                 </div>
             </div>
     
             <div class="flex flex-wrap gap-4">
                 <div class="grow">
+                    <span class="text-red-500">*</span>
                     <span class="uppercase">primer nombre</span>
-                    <input v-model="store.beneficiario.primer_nombre" type="text" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('primer_nombre')}" >
+                    <input v-model="store.beneficiario.primer_nombre" type="text" maxlength="50" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('primer_nombre')}" >
                 </div>
                 <div class="grow">
                     <span class="uppercase">segundo nombre</span>
-                    <input v-model="store.beneficiario.segundo_nombre" type="text" class="input focus:outline-none" >
+                    <input v-model="store.beneficiario.segundo_nombre" type="text" maxlength="50" class="input focus:outline-none" >
                 </div>
                 <div class="grow">
                     <span class="uppercase">tercer nombre</span>
-                    <input v-model="store.beneficiario.tercer_nombre" type="text" class="input focus:outline-none" >
+                    <input v-model="store.beneficiario.tercer_nombre" type="text" maxlength="50" class="input focus:outline-none" >
                 </div>
             </div>
     
             <div class="flex flex-wrap gap-4">
                 <div class="grow">
+                    <span class="text-red-500">*</span>
                     <span class="uppercase">primer apellido</span>
-                    <input v-model="store.beneficiario.primer_apellido" type="text" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('primer_apellido')}" >
+                    <input v-model="store.beneficiario.primer_apellido" type="text" maxlength="50" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('primer_apellido')}" >
                 </div>
                 <div class="grow">
                     <span class="uppercase">segundo apellido</span>
-                    <input v-model="store.beneficiario.segundo_apellido" type="text" class="input focus:outline-none" >
+                    <input v-model="store.beneficiario.segundo_apellido" type="text" maxlength="50" class="input focus:outline-none" >
                 </div>
                 <div class="grow">
                     <span class="uppercase">apellido de casada</span>
-                    <input v-model="store.beneficiario.apellido_casada" type="text" class="input focus:outline-none" >
+                    <input v-model="store.beneficiario.apellido_casada" type="text" maxlength="50" class="input focus:outline-none" >
                 </div>
             </div>
     
@@ -100,6 +103,7 @@
                     </div>
                 </div>
                 <div class="grow">
+                    <span class="text-red-500">*</span>
                     <span class="uppercase">fecha nacimiento</span>
                     <input v-model="store.beneficiario.fecha_nacimiento" type="date" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('fecha_nacimiento')}" >
                 </div>
@@ -125,11 +129,12 @@
                 </div> 
                 <div class="grow">
                     <span class="uppercase">lugar de nacimiento</span>
-                    <input v-model="store.beneficiario.lugar_nacimiento" type="text" class="input focus:outline-none" >
+                    <input v-model="store.beneficiario.lugar_nacimiento" type="text" maxlength="80" class="input focus:outline-none" >
                 </div>
             </div>
             <div class="flex flex-wrap gap-4">
                 <div class="grow">
+                    <span class="text-red-500">*</span>
                     <span class="uppercase">celular</span>
                     <input v-model="store.beneficiario.celular" type="number" maxlength="8" minlength="8" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('celular')}">
                 </div>
@@ -138,6 +143,7 @@
                     <input v-model="store.beneficiario.telefono" type="number" maxlength="8" minlength="8" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('telefono')}">
                 </div>
                 <div class="grow">
+                    <span class="text-red-500">*</span>
                     <span class="uppercase">correo</span>
                     <input v-model="store.beneficiario.email" type="email" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('email')}">
                 </div>
@@ -145,15 +151,15 @@
             <div class="flex flex-wrap gap-4">
                 <div class="grow">
                     <span class="uppercase">facebook</span>
-                    <input v-model="store.beneficiario.facebook" type="text" class="input focus:outline-none">
+                    <input v-model="store.beneficiario.facebook" type="text" maxlength="100" class="input focus:outline-none">
                 </div>
                 <div class="grow">
                     <span class="uppercase">tiktok</span>
-                    <input v-model="store.beneficiario.tiktok" type="text" class="input focus:outline-none">
+                    <input v-model="store.beneficiario.tiktok" type="text" maxlength="100" class="input focus:outline-none">
                 </div>
                 <div class="grow">
                     <span class="uppercase">instagram</span>
-                    <input v-model="store.beneficiario.instagram" type="text" class="input focus:outline-none" >
+                    <input v-model="store.beneficiario.instagram" type="text" maxlength="100" class="input focus:outline-none" >
                 </div>
             </div>
         </details>

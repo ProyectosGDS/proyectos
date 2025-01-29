@@ -13,12 +13,14 @@
         <br>
         <div class="flex flex-wrap gap-4">
             <div class="grow">
+                <span class="text-red-500">*</span>
                 <span class="uppercase">cui</span>
                 <input v-model="store.beneficiario.responsables.cui" type="text" maxlength="13" minlength="13" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('responsables.cui')}">
             </div>
             <div class="grow">
+                <span class="text-red-500">*</span>
                 <span class="uppercase">nombre</span>
-                <input v-model="store.beneficiario.responsables.nombre" type="text" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('responsables.nombre')}" >
+                <input v-model="store.beneficiario.responsables.nombre" type="text" maxlength="150" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('responsables.nombre')}" >
             </div>
             <div class="grow">
                 <span class="uppercase">sexo</span>
@@ -34,17 +36,19 @@
             <div class="grow">
                 <span class="uppercase">zona</span>
                 <select v-model="store.beneficiario.responsables.zona" class="input focus:outline-none uppercase" :class="{'border-red-400':store.errors.hasOwnProperty('responsables.zona')}">
+                    <option value=""> --seleccione-- </option>
                     <option v-for="zona in catalogos.catalogos.zonas" :value="zona.id_zona">{{ zona.descripcion }}</option>
                 </select>
             </div>
             <div class="grow">
                 <span class="uppercase">dirección domiciliar</span>
-                <input v-model="store.beneficiario.responsables.domicilio" type="text" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('responsables.domicilio')}" >
+                <input v-model="store.beneficiario.responsables.domicilio" type="text" maxlength="150" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('responsables.domicilio')}" >
             </div>
         </div>
 
         <div class="flex flex-wrap gap-4">
             <div class="grow">
+                <span class="text-red-500">*</span>
                 <span class="uppercase">celular</span>
                 <input v-model="store.beneficiario.responsables.celular" type="number" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('responsables.celular')}" >
             </div>
@@ -53,6 +57,7 @@
                 <input v-model="store.beneficiario.responsables.email" type="email" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('responsables.email')}" >
             </div>
             <div class="grow">
+                <span class="text-red-500">*</span>
                 <span class="uppercase">Parentesco</span>
                 <select v-model="store.beneficiario.responsables.id_parentesco" class="input focus:outline-none uppercase" :class="{'border-red-400':store.errors.hasOwnProperty('responsables.id_parentesco')}">
                     <option value=""> -- SELECCIONE -- </option>

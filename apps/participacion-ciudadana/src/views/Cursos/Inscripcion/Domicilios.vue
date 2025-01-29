@@ -25,13 +25,13 @@
             </div>
             <div class="grow">
                 <span class="uppercase">nomenclatura</span>
-                <input v-model="store.beneficiario.domicilios.nomenclatura" type="text" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('domicilios.nomenclatura')}" >
+                <input v-model="store.beneficiario.domicilios.nomenclatura" type="text" maxlength="10" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('domicilios.nomenclatura')}" >
             </div>
         </div>
         <div class="flex flex-wrap gap-4">
             <div class="grow">
                 <span class="uppercase">complemento</span>
-                <input v-model="store.beneficiario.domicilios.complemento" type="text" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('domicilios.complemento')}" >
+                <input v-model="store.beneficiario.domicilios.complemento" type="text" maxlength="150" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('domicilios.complemento')}" >
             </div>
         </div>
 
@@ -44,7 +44,7 @@
                 </select>
             </div>
             <div class="grow">
-                <span class="uppercase">grupo habitacional</span>
+                <span class="uppercase">tipo grupo habitacional</span>
                 <select v-model="store.beneficiario.domicilios.grupo_x_zona.id_grupo" class="input focus:outline-none uppercase">
                     <option value=""> -- SELECCIONE -- </option>
                     <option v-for="grupo_habitacional in catalogos.catalogos.grupo_habitacional" :value="grupo_habitacional.id_grupo">{{ grupo_habitacional.descripcion }}</option>

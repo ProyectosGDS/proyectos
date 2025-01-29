@@ -14,12 +14,14 @@ export const useCatalogosStore = defineStore('catalogos', () => {
         fetch : false,
     })
 
+
+
     const errors = ref([])
 
     async function fetch() {
         loading.value.fetch = true
         try {
-            const response = await axios.get('beneficiarios/catalogos')
+            const response = await axios.get('participacion-ciudadana/catalogos')
             catalogos.value = response.data
         } catch (error) {
             if(error.response.data.hasOwnProperty('message') && error.response.data.hasOwnProperty('line')) {
@@ -54,6 +56,7 @@ export const useCatalogosStore = defineStore('catalogos', () => {
 
     return {
         catalogos,
+
         fetch,
         fetchGrupoZona,
     }

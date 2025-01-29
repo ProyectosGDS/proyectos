@@ -5,12 +5,11 @@
 
     const auth = useAuthStore()
     const store = useProgramasStore()
+    
+    const search = ref('')
 
-    onMounted(() => {
-        store.fetch()
-        store.fetchDependencias()
-        store.fetchNiveles()
-        store.fetchEscuelas()
+    const searchNiveles = computed(() => {
+        return store.niveles.filter(nivel => nivel.descripcion.toLowerCase().match(search.value.toLocaleLowerCase()))
     })
 
     const tiene_escuelas = ref('N')
@@ -23,6 +22,14 @@
             tiene_escuelas.value = 'N'
         }
     })
+
+    onMounted(() => {
+        store.fetch()
+        store.fetchDependencias()
+        store.fetchNiveles()
+        store.fetchEscuelas()
+    })
+
 </script>
 
 <template>
@@ -74,8 +81,9 @@
             </Input>
             <fieldset class="border rounded-lg p-4">
                 <legend class="px-2 text-color-4"> NIVELES </legend>
+                <Input type="search" icon="fas fa-search" placeholder="Buscar nivel" v-model="search" />
                 <div>
-                    <template v-for="nivel in store.niveles">
+                    <template v-for="nivel in searchNiveles">
                         <label class="flex gap-2 cursor-pointer">
                             <input type="checkbox" v-model="store.niveles_seleccionados" :value="nivel.id_nivel">
                             <span class="text-sm">{{ nivel.descripcion }}</span>
@@ -116,8 +124,9 @@
             </Input>
             <fieldset class="border rounded-lg p-4">
                 <legend class="px-2 text-color-4"> NIVELES </legend>
+                <Input type="search" icon="fas fa-search" placeholder="Buscar nivel" v-model="search" />
                 <div>
-                    <template v-for="nivel in store.niveles">
+                    <template v-for="nivel in searchNiveles">
                         <label class="flex gap-2 cursor-pointer">
                             <input type="checkbox" v-model="store.niveles_seleccionados" :value="nivel.id_nivel">
                             <span class="text-sm">{{ nivel.descripcion }}</span>

@@ -56,6 +56,11 @@
             <template #estatus="{item}">
                 <Icon :icon="item.estatus === 'I' ? 'fas fa-xmark' : 'fas fa-check'" :class="item.estatus === 'I' ? 'text-red-500' : 'text-green-500'"/>
             </template>
+            <template #modalidad="{item}">
+                <span class="text-xs">
+                    {{ item.modalidad == 'P' ? 'PRESENCIAL' : ( item.modalidad == 'V' ? 'VIRTUAL' : 'HIBRIDA') }}
+                </span>
+            </template>
             <template #actions="{item}">
                 <div class="relative">
                     <Drop-Down-Button icon="fas fa-ellipsis-vertical">

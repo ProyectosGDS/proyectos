@@ -35,7 +35,7 @@ trait TraitPersonas {
         }
 
         $persona = personas::create([
-            'cui'               => $request->cui,
+            'cui'               => $request->cui ?? null,
             'primer_nombre'     => ucfirst(strtolower(trim($request->primer_nombre))),
             'segundo_nombre'    => ucfirst(strtolower(trim($request->segundo_nombre))) ?? null,
             'tercer_nombre'     => ucfirst(strtolower(trim($request->tercer_nombre))) ?? null,
@@ -47,18 +47,18 @@ trait TraitPersonas {
             'lugar_nacimiento'  => $request->lugar_nacimiento ?? null,
             'nit'               => $request->nit ? (strpos($request->nit,"-") ? str_replace("-","",$request->nit) : $request->nit )  : null,
             'pasaporte'         => $request->pasaporte ?? null,
-            'id_etnia'   => $request->id_etnia ?? null,
-            'id_estado'   => $request->id_estado ?? null,
-            'interlocutor'   => $request->interlocutor ?? null,
-            'telefono' => $request->telefono ?? null,
-            'celular' => trim($request->celular),
-            'email' => strtolower($request->email),
-            'facebook' => $request->facebook ?? null,
-            'instagram' => $request->instagram ?? null,
-            'tiktok' => $request->tiktok ?? null,
-            'estatus'         => 'A',
-            'usuario' => auth()->user()->cui,
-            'fechau' => now(),
+            'id_etnia'          => $request->id_etnia ?? null,
+            'id_estado'         => $request->id_estado ?? null,
+            'interlocutor'      => $request->interlocutor ?? null,
+            'telefono'          => $request->telefono ?? null,
+            'celular'           => trim($request->celular),
+            'email'             => strtolower($request->email),
+            'facebook'          => $request->facebook ?? null,
+            'instagram'         => $request->instagram ?? null,
+            'tiktok'            => $request->tiktok ?? null,
+            'estatus'           => $request->estatus ?? 'A',
+            'usuario'           => auth()->user() ? auth()->user()->cui : null,
+            'fechau'            => now(),
         ]);
 
         return $persona;
@@ -117,7 +117,7 @@ trait TraitPersonas {
             'email' => $request->has('responsables.email') ? strtolower($request->responsables['email']) : null,
             'celular' => $request->responsables['celular'],
             'sexo' => $request->responsables['sexo'] ?? null,
-            'domicilio' => $request->responsables['domicilio'],
+            'domicilio' => $request->responsables['domicilio'] ?? null,
             'zona' => $request->responsables['zona'] ?? null,
         ]);
 
@@ -147,7 +147,7 @@ trait TraitPersonas {
             'email' => $request->has('emergencia.email') ? strtolower($request->emergencia['email']) : null,
             'celular' => $request->emergencia['celular'],
             'sexo' => $request->emergencia['sexo'] ?? null,
-            'domicilio' => $request->emergencia['domicilio'],
+            'domicilio' => $request->emergencia['domicilio'] ?? null,
             'zona' => $request->emergencia['zona'] ?? null,
         ]);
 
