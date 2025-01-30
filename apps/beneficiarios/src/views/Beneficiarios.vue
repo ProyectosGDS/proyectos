@@ -114,11 +114,9 @@ import ServerSide from '@/components/ServerSide.vue'
 
         if(id_programa) {
 
-            programa.value = catalogos.catalogos.programas.find(programa => programa.id_programa == id_programa)
-
-            console.log(programa.value);
-            
+            programa.value = catalogos.catalogos.programas.find(programa => programa.id_programa == id_programa)            
             catalogos.fetchNiveles(id_programa)
+            
         } else {
             catalogos.niveles = []
         }
@@ -262,6 +260,7 @@ import ServerSide from '@/components/ServerSide.vue'
         <template #close>
             <Icon @click="store.resetData()" icon="fas fa-xmark" class="text-white text-2xl cursor-pointer" />
         </template>
+        
         <Loading-Bar v-if="store.loading.show" class="h-1 bg-color-4" />
         
         <div v-if="store.beneficiario.hasOwnProperty('primer_nombre')" class="text-color-4 grid gap-4">
@@ -343,7 +342,7 @@ import ServerSide from '@/components/ServerSide.vue'
         </template> 
     </Modal>
 
-    <Modal :open="store.modal.asignacion" title="Asingar cursos" icon="fas fa-book">
+    <Modal :open="store.modal.asignacion" title="Asignar cursos" icon="fas fa-book">
         <template #close>
             <Icon @click="store.resetData()" icon="fas fa-xmark" class="text-white text-2xl cursor-pointer" />
         </template>

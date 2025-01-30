@@ -127,10 +127,11 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
 
     async function update() {       
         loading.value.update = true
+        
         try {
             if (Object.keys(compareObjects(copyBeneficiario.value,beneficiario.value)).length > 0) {
+                beneficiario.value.estatus = 'A'
                 const response = await axios.put('beneficiarios/' + beneficiario.value.id_persona,beneficiario.value)
-                // fetch()
                 reload.value = true
                 global.setAlert(response.data,'success')
             }
