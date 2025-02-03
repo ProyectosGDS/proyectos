@@ -14,7 +14,7 @@ class CursosController extends Controller
     public function index () {
         try {
             
-            $cursos = cursos::all();
+            $cursos = cursos::with(['requisitos'])->get();
 
             return response($cursos);
 
@@ -40,6 +40,10 @@ class CursosController extends Controller
                 'fechau' => now(),
             ]);
 
+            if($request->requisitos) {
+                $curso->requisitos()->sync($request->requisitos);
+            }
+
             return response('Curso creado exitosamente');
 
         } catch (\Throwable $th) {
@@ -49,9 +53,7 @@ class CursosController extends Controller
 
     public function show (cursos $curso) {
         try {
-
-            return response($curso);
-
+            return response($curso->load('requisitos'));
         } catch (\Throwable $th) {
             return response($th->getMessage());
         }
@@ -68,8 +70,9 @@ class CursosController extends Controller
             $curso->nombre = mb_strtoupper($request->nombre);
             $curso->descripcion = $request->descripcion;
             $curso->estatus = $request->estatus;
-
             $curso->save();
+
+            $curso->requisitos()->sync($request->requisitos);
 
             return response('Curso modificado exitosamente');
 

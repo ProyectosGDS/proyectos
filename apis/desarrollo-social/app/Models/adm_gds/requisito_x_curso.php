@@ -14,7 +14,5 @@ class requisito_x_curso extends Model
         'id_requisito',
         'id_curso',
         'obilgatorio',
-        'usuario',
-        'fechau',
     ];
 }

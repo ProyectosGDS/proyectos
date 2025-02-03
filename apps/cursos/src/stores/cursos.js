@@ -19,6 +19,7 @@ export const useCursosStore = defineStore('cursos', () => {
     
     const cursos = ref([])
     const curso = ref({})
+    const requisitos = ref([])
 
     const loading = ref({
         fetch : false,
@@ -54,26 +55,9 @@ export const useCursosStore = defineStore('cursos', () => {
         }
     }
 
-    async function show (id_curso) {
-        loading.value.show = true
-        try {
-            const response = await axios.get('cursos/'+id_curso)
-            cursos.value = response.data
-        } catch (error) {
-            if(error.response.data.hasOwnProperty('message') && error.response.data.hasOwnProperty('line')) {
-                global.setAlert(error.response.data.message,'danger')
-            }else if(error.response.data.hasOwnProperty('errors') && error.response.data.hasOwnProperty('message')){
-                errors.value = error.response.data.errors
-            }else{
-                console.error(error.response.data)
-            }
-        }finally {
-            loading.value.show = false
-        }
-    }
-
     async function store() {
         loading.value.store = true
+        curso.value.requisitos = requisitos.value
         try {
             const response = await axios.post('cursos',curso.value)
             fetch()
@@ -94,6 +78,7 @@ export const useCursosStore = defineStore('cursos', () => {
 
     async function update() {
         loading.value.update = true
+        curso.value.requisitos = requisitos.value
         try {
             const response = await axios.put('cursos/' + curso.value.id_curso, curso.value)
             fetch()
@@ -133,22 +118,9 @@ export const useCursosStore = defineStore('cursos', () => {
     }
 
     async function edit (item) {
-        loading.value.show = true
-        try {
-            const response = await axios.get('cursos/'+item.id_curso)
-            curso.value = response.data
-            modal.value.edit = true
-        } catch (error) {
-            if(error.response.data.hasOwnProperty('message') && error.response.data.hasOwnProperty('line')) {
-                global.setAlert(error.response.data.message,'danger')
-            }else if(error.response.data.hasOwnProperty('errors') && error.response.data.hasOwnProperty('message')){
-                errors.value = error.response.data.errors
-            }else{
-                console.error(error.response.data)
-            }
-        }finally {
-            loading.value.show = false
-        }
+        curso.value = item
+        requisitos.value = curso.value.requisitos.map(requisito => requisito.id_requisito)
+        modal.value.edit = true
     }
 
     function deleteItem (item) {
@@ -165,12 +137,14 @@ export const useCursosStore = defineStore('cursos', () => {
         }
 
         errors.value = []
+        requisitos.value = []
     }
 
     return {
         headers,
         cursos,
         curso,
+        requisitos,
         loading,
         modal,
         errors,

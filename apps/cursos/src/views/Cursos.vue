@@ -1,14 +1,17 @@
 <script setup>
 
-    import { useAuthStore } from '@/stores/auth'
     import { onMounted} from 'vue'
+    import { useAuthStore } from '@/stores/auth'
     import { useCursosStore } from '@/stores/cursos'
+    import { useRequisitosStore } from '@/stores/requisitos'
 
     const auth = useAuthStore()
     const store = useCursosStore()
+    const requisitos = useRequisitosStore()
 
     onMounted(() => {
         store.fetch()
+        requisitos.fetch()
     })
 
 </script>
@@ -53,7 +56,15 @@
             <Input v-model="store.curso.nombre" option="label" title="Nombre curso" :error="store.errors.hasOwnProperty('nombre')" />
             <Input v-model="store.curso.descripcion" option="text-area" title="Descripción curso" rows="7" :error="store.errors.hasOwnProperty('descripcion')" maxlength="800" />
         </div>
-
+        <details :open="true" class="border border-color-4 p-3 rounded-lg text-color-4 my-2">
+            <summary class="cursor-pointer">Requisitos disponibles</summary>
+            <div class="grid gap-2">
+                <label v-for="requisito in requisitos.requisitos" class="flex items-center gap-1 text-sm">
+                    <input type="checkbox" v-model="store.requisitos" :value="requisito.id_requisito" >
+                    {{ requisito.nombre }}
+                </label>
+            </div>
+        </details>
         <Validate-Errors :errors="store.errors" v-if="store.errors != 0" />
 
         <template #footer>
@@ -77,6 +88,16 @@
             <Input v-model="store.curso.nombre" option="label" title="Nombre curso" :error="store.errors.hasOwnProperty('nombre')" />
             <Input v-model="store.curso.descripcion" option="text-area" title="Descripción curso" :error="store.errors.hasOwnProperty('descripcion')" rows="7" maxlength="800" />
         </div>
+
+        <details :open="true" class="border border-color-4 p-3 rounded-lg text-color-4 my-2">
+            <summary class="cursor-pointer">Requisitos disponibles</summary>
+            <div class="grid gap-2">
+                <label v-for="requisito in requisitos.requisitos" class="flex items-center gap-1 text-sm">
+                    <input type="checkbox" v-model="store.requisitos" :value="requisito.id_requisito" >
+                    {{ requisito.nombre }}
+                </label>
+            </div>
+        </details>
 
         <Validate-Errors :errors="store.errors" v-if="store.errors != 0" />
         
@@ -102,10 +123,7 @@
 </template>
 
 <style scoped>
-    select, input {
-        @apply border border-gray-300 rounded-lg w-full px-2 h-9;
-    }
-
+   
     th {
         @apply text-center uppercase font-normal text-sm;
     }
