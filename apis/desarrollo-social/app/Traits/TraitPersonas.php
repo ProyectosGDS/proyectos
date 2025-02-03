@@ -75,6 +75,7 @@ trait TraitPersonas {
             'complemento' => $request->domicilios['complemento'] ?? null,
             'zona' => $request->domicilios['zona'] ?? null,
             'id_grupo_zona' => $request->domicilios['id_grupo_zona'] ?? null,
+            'municipio_id'  => $request->domicilios['municipio_id'] ?? null,
         ]);
 
         return $domicilios;
@@ -85,10 +86,13 @@ trait TraitPersonas {
         $datosMedicos = datos_medicos::create([
             'id_persona' => $id_persona,
             'id_tipo' => $request->datos_medicos['id_tipo'] ?? null,
-            'id_enfermedad' => $request->datos_medicos['id_enfermedad'] ?? null,
             'medicamentos' => $request->datos_medicos['medicamentos'] ?? null ,
             'dosis' => $request->datos_medicos['dosis'] ?? null,
         ]);
+
+        if($datosMedicos) {
+            $datosMedicos->enfermedades_x_persona()->sync($request->datos_medicos['enfermedades']);
+        }
         
         return $datosMedicos;
         
@@ -234,6 +238,7 @@ trait TraitPersonas {
             'complemento' => $request->domicilios['complemento'] ?? null,
             'zona' => $request->domicilios['zona'] ?? null,
             'id_grupo_zona' => $request->domicilios['id_grupo_zona'] ?? null,
+            'municipio_id' => $request->domicilios['municipio_id'] ?? null
         ]);
 
         return $domicilios;
@@ -243,11 +248,13 @@ trait TraitPersonas {
 
         $datosMedicos = $persona->datos_medicos()->update([
             'id_tipo' => $request->datos_medicos['id_tipo'] ?? null,
-            'id_enfermedad' => $request->datos_medicos['id_enfermedad'] ?? null,
             'medicamentos' => $request->datos_medicos['medicamentos'] ?? null ,
             'dosis' => $request->datos_medicos['dosis'] ?? null,
         ]);
 
+
+        $persona->datos_medicos->enfermedades_x_persona()->sync($request->datos_medicos['enfermedades']);
+    
         return $datosMedicos;
 
     }

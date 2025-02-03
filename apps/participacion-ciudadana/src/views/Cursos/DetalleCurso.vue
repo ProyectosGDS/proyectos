@@ -27,6 +27,9 @@
     watchEffect(() => {
         store.show(props.curso_id)
         catalogos.fetchGrupoZona()
+        if(catalogos.catalogos.hasOwnProperty('departamentos')) {
+            catalogos.fetchMunicipiosDepartamento()
+        }
     })
 
     onBeforeMount(() => {

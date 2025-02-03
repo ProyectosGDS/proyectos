@@ -1,6 +1,7 @@
 <script setup>
     import { useBeneficiariosStore } from '@/stores/beneficiarios'
     import { useCatalogosStore } from '@/stores/catalogos'
+    import Select from '@/components/Select.vue'
 
     const store = useBeneficiariosStore()
     const catalogos = useCatalogosStore()
@@ -21,10 +22,7 @@
             </div>
             <div class="grow">
                 <span class="uppercase">¿ Padece alguna enfermedad cronica, cual ?</span>
-                <select v-model="store.beneficiario.datos_medicos.id_enfermedad" class="input focus:outline-none uppercase" :class="{'border-red-400':store.errors.hasOwnProperty('datos_medicos.id_enfermedad')}">
-                    <option value=""> -- SELECCIONE -- </option>
-                    <option v-for="enfermedad in catalogos.catalogos.enfermedades" :value="enfermedad.id_enfermedad">{{ enfermedad.descripcion }}</option>
-                </select>
+                <Select :items="catalogos.catalogos.enfermedades" v-model="store.enfermedades" />
             </div>
         </div>
         <div class="grid xl:flex gap-4">

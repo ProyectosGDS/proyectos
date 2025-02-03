@@ -11,10 +11,26 @@
     <details class="border p-4 rounded-lg border-color-4">
         <summary class="cursor-pointer">DIRECCIÓN DOMICILIAR </summary>
         <br>        
-        <div class="grid xl:flex gap-4">
+        <div class="flex flex-wrap gap-4">
+            <div class="grow">
+                <span class="uppercase">departamento</span>
+                <select v-model="store.beneficiario.domicilios.departamento_id" class="input focus:outline-none uppercase">
+                    <option value=""> -- SELECCIONE -- </option>
+                    <option v-for="departamento in catalogos.catalogos.departamentos" :value="departamento.id">{{ departamento.nombre }}</option>
+                </select>
+            </div>
+            <div class="grow">
+                <span class="uppercase">municipio</span>
+                <select v-model="store.beneficiario.domicilios.municipio_id" class="input focus:outline-none uppercase" :class="{'border-red-400':store.errors.hasOwnProperty('domicilios.municipio_id')}">
+                    <option value=""> -- SELECCIONE -- </option>
+                    <option v-for="municipio in catalogos.catalogos.municipios" :value="municipio.id">{{ municipio.nombre }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="flex flex-wrap gap-4">
             <div class="grow">
                 <span class="uppercase">numero vía</span>
-                <input v-model="store.beneficiario.domicilios.numero_via" type="number" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('domicilios.numero_via')}" >
+                <input v-model="store.beneficiario.domicilios.numero_via" type="number" min="1" class="input focus:outline-none" :class="{'border-red-400':store.errors.hasOwnProperty('domicilios.numero_via')}" >
             </div>
             <div class="grow">
                 <span class="uppercase">via</span>

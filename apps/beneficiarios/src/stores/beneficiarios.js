@@ -25,7 +25,9 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
     const beneficiario = ref({
         sexo : 'M',
         domicilios : {
-            grupo_x_zona : {}
+            grupo_x_zona : {},
+            departamento_id : 7,
+            municipio_id : 108,
         },
         responsables : {
             sexo : 'M',
@@ -38,6 +40,8 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
         },
         datos_medicos : {},
     })
+
+    const enfermedades = ref([])
 
     const asignacion = ref({})
     const copyBeneficiario = ref({})
@@ -106,9 +110,11 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
 
     async function store() {
         loading.value.store = true
+        if(enfermedades.value.length > 0) {
+            beneficiario.value.datos_medicos.enfermedades = enfermedades.value
+        }
         try {
             const response = await axios.post('beneficiarios',beneficiario.value)
-            // fetch()
             reload.value = true
             global.setAlert(response.data,'success')
             resetData()
@@ -127,7 +133,7 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
 
     async function update() {       
         loading.value.update = true
-        
+        beneficiario.value.datos_medicos.enfermedades = enfermedades.value
         try {
             if (Object.keys(compareObjects(copyBeneficiario.value,beneficiario.value)).length > 0) {
                 beneficiario.value.estatus = 'A'
@@ -173,13 +179,17 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
     async function edit(id_persona) {
 
         beneficiario.value = await show(id_persona)
-        beneficiario.value.domicilios = beneficiario.value.domicilios ?? { grupo_x_zona : {}}        
-        beneficiario.value.domicilios.grupo_x_zona = beneficiario.value.domicilios.grupo_x_zona ?? {}
 
+        beneficiario.value.domicilios = beneficiario.value.domicilios ?? { grupo_x_zona : {}, departamento_id : 7 }        
+        beneficiario.value.domicilios.grupo_x_zona = beneficiario.value.domicilios.grupo_x_zona ?? {}
         beneficiario.value.datos_academicos = beneficiario.value.datos_academicos ?? {}        
         beneficiario.value.datos_medicos = beneficiario.value.datos_medicos ?? {}        
         beneficiario.value.responsables = beneficiario.value.responsables ?? {}        
         beneficiario.value.emergencia = beneficiario.value.emergencia ?? {}
+
+        if(beneficiario.value.datos_medicos.enfermedades_x_persona) {
+            enfermedades.value = beneficiario.value.datos_medicos.enfermedades_x_persona.map(enfermedad => enfermedad.id_enfermedad)
+        }
         
         copyBeneficiario.value = JSON.parse(JSON.stringify(beneficiario.value))
         
@@ -241,7 +251,9 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
         beneficiario.value = {
             sexo : 'M',
             domicilios : {
-                grupo_x_zona : {}
+                grupo_x_zona : {},
+                departamento_id : 7,
+                municipio_id : 108,
             },
             responsables : {
                 sexo : 'M',
@@ -266,6 +278,7 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
         success.value = false
         copyBeneficiario.value = {}
         asignacion.value = {}
+        enfermedades.value = []
     }
 
     function openSync (item) {
@@ -300,6 +313,7 @@ export const useBeneficiariosStore = defineStore('beneficiarios', () => {
         beneficiarios,
         beneficiario,
         asignacion,
+        enfermedades,
         loading,
         reload,
         modal,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Beneficiarios;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Cursos\ProgramasController;
 use App\Http\Resources\BeneficiarioUnicoResource;
+use App\Models\adm_gds\departamentos;
 use App\Models\adm_gds\enfermedades;
 use App\Models\adm_gds\escolaridad;
 use App\Models\adm_gds\estado_civil;
@@ -85,7 +86,7 @@ class BeneficiarioController extends Controller
                 'responsables',
                 'emergencia',
                 'datos_academicos',
-                'datos_medicos',
+                'datos_medicos.enfermedades_x_persona',
             ]);
             return response($beneficiario);
         } catch (\Throwable $th) {
@@ -109,7 +110,8 @@ class BeneficiarioController extends Controller
                     $request->has('domicilios.nomenclatura') ||
                     $request->has('domicilios.complemento') ||
                     $request->has('domicilios.zona') ||
-                    $request->has('domicilios.id_grupo_zona')
+                    $request->has('domicilios.id_grupo_zona') ||
+                    $request->has('domicilios.municipio_id')
                 ){
 
                     $this->createDomicilios($request,$persona->id_persona);
@@ -128,9 +130,9 @@ class BeneficiarioController extends Controller
 
                 if(
                     $request->has('datos_medicos.id_tipo') ||
-                    $request->has('datos_medicos.id_enfermedad') ||
                     $request->has('datos_medicos.medicamentos') ||
-                    $request->has('datos_medicos.dosis')
+                    $request->has('datos_medicos.dosis') ||
+                    $request->has('datos_medicos.enfermedades')
                 ){
                     $this->createDatosMedicos($request,$persona->id_persona);
                 }
@@ -213,7 +215,9 @@ class BeneficiarioController extends Controller
                     $request->has('domicilios.nomenclatura') ||
                     $request->has('domicilios.complemento') ||
                     $request->has('domicilios.zona') ||
-                    $request->has('domicilios.id_grupo_zona')
+                    $request->has('domicilios.id_grupo_zona') ||
+                    $request->has('domicilios.municipio_id')
+
                 ){
                     $this->createDomicilios($request,$beneficiario->id_persona);
                 }
@@ -241,7 +245,8 @@ class BeneficiarioController extends Controller
                     $request->has('datos_medicos.id_tipo') ||
                     $request->has('datos_medicos.id_enfermedad') ||
                     $request->has('datos_medicos.medicamentos') ||
-                    $request->has('datos_medicos.dosis')
+                    $request->has('datos_medicos.dosis')||
+                    $request->has('datos_medicos.enfermedades')
                 ){
                     $this->createDatosMedicos($request, $beneficiario->id_persona);
                 }
@@ -340,6 +345,7 @@ class BeneficiarioController extends Controller
             $programas = new ProgramasController();
 
             $catalogos = [
+                'departamentos' => departamentos::all(),
                 'etnias' => etnias::all(),
                 'estado_civil' => estado_civil::all(),
                 'vias' => vias::all(),

@@ -48,6 +48,10 @@
         } else {
             catalogos.cursos = []
         }
+
+        if(catalogos.catalogos.hasOwnProperty('departamentos')) {
+            catalogos.fetchMunicipiosDepartamento()
+        }
     })
 
 </script>

@@ -20,6 +20,7 @@ class domicilios extends Model
         'complemento',
         'zona',
         'id_grupo_zona',
+        'municipio_id',
     ];
 
     // RELACIONES INVERSAS

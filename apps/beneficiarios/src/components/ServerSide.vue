@@ -23,7 +23,7 @@
         }
     })
 
-    const emits = defineEmits('reloadData')
+    const emits = defineEmits(['reloadData'])
 
     const page = ref(1)
     const search = ref('')
@@ -72,12 +72,13 @@
             const { data: rows, ...pagination } = response.data;
             data.value = rows;
             paginate.value = pagination;
-            emits('reloadData',false)
+            if(props.reload == true ) {
+                emits('reloadData',false)
+            }
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
             loading.value = false
-            reload.value = false
         }
     }
 

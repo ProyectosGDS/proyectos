@@ -54,10 +54,24 @@ export const useCatalogosStore = defineStore('catalogos', () => {
         }
     }
 
+    async function fetchMunicipiosDepartamento() {
+        try {
+            if(store.beneficiario.domicilios.hasOwnProperty('departamento_id')) {
+                const departamento_id = store.beneficiario.domicilios.departamento_id
+                const response = await axios.get('municipios-por-departamento/'+ departamento_id)
+                catalogos.value.municipios = response.data.municipios
+            }
+            
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     return {
         catalogos,
 
         fetch,
         fetchGrupoZona,
+        fetchMunicipiosDepartamento,
     }
 })

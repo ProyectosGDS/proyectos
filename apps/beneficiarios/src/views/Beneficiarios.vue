@@ -82,7 +82,6 @@ import ServerSide from '@/components/ServerSide.vue'
     }
 
     onMounted(() => {
-        // store.fetch()
         catalogos.fetch()
     })
 
@@ -108,6 +107,7 @@ import ServerSide from '@/components/ServerSide.vue'
     }
 
     watchEffect(() => {
+
         catalogos.fetchGrupoZona()
 
         let id_programa = store.asignacion.id_programa
@@ -142,6 +142,10 @@ import ServerSide from '@/components/ServerSide.vue'
         } else {
             catalogos.clases = []
         }
+
+        if(catalogos.catalogos.hasOwnProperty('departamentos')) {
+            catalogos.fetchMunicipiosDepartamento()
+        }
     })
 </script>
 
@@ -153,41 +157,6 @@ import ServerSide from '@/components/ServerSide.vue'
                 <Button @click="store.modal.new = true" icon="fas fa-plus" class="btn-primary" />
             </Tool-Tip>
         </div>
-        <!-- <Data-Table v-if="auth.checkPermission('ver beneficiarios')" :headers="store.headers" :data="store.beneficiarios" :loading="store.loading.fetch" :export="auth.checkPermission('exportar beneficiarios')">
-            <template #sexo="{item}">
-                <Icon :icon="item.sexo == 'M' ? 'fas fa-person' : 'fas fa-person-dress'" :class="item.sexo == 'M' ? 'text-blue-500' : 'text-fuchsia-400'" />
-            </template>
-            <template #estatus="{item}">
-                <Icon :icon="item.estatus == 'A' ? 'fas fa-check' : 'fas fa-xmark'" :class="item.estatus == 'A' ? 'text-green-500': 'text-red-500'" />
-            </template>
-            <template #actions="{item}">
-                <div class="relative">
-                    <Drop-Down-Button icon="fas fa-ellipsis-vertical">
-                        <ul class="text-violet-500 text-nowrap">
-                            <li v-if="auth.checkPermission('editar beneficiario')" @click="store.edit(item.id_persona)">
-                                Editar
-                            </li>
-                            <li v-if="auth.checkPermission('asignar curso beneficiario')" @click="store.openSync(item)">
-                                Asignar curso
-                            </li>
-                            <li v-if="auth.checkPermission('observaciones beneficiario')" @click="bitacora.observacion(item)">
-                                Observaciones
-                            </li>
-                            <li v-if="auth.checkPermission('eliminar beneficiario')" @click="store.deleteItem(item)">
-                                Deshabilitar beneficiario
-                            </li>
-                            <hr>
-                            <li v-if="auth.checkPermission('ver bitacora beneficiario')" @click="bitacora.fetchBitacoras(item.id_persona)">
-                                Historial
-                            </li>
-                            <li v-if="auth.checkPermission('cambio estado beneficiario')" @click="store.openStatus(item)">
-                                Cambiar estado
-                            </li>
-                        </ul>
-                    </Drop-Down-Button>
-                </div>
-            </template>
-        </Data-Table> -->
         <ServerSide v-if="auth.checkPermission('ver beneficiarios')" :headers="store.headers" src="get-beneficiarios" :reload="store.reload" @reloadData="refresh">
             <template #sexo="{item}">
                 <Icon :icon="item.sexo == 'M' ? 'fas fa-person' : 'fas fa-person-dress'" :class="item.sexo == 'M' ? 'text-blue-500' : 'text-fuchsia-400'" />
@@ -215,9 +184,9 @@ import ServerSide from '@/components/ServerSide.vue'
                             <li v-if="auth.checkPermission('ver bitacora beneficiario')" @click="bitacora.fetchBitacoras(item.id_persona)">
                                 Historial
                             </li>
-                            <li v-if="auth.checkPermission('cambio estado beneficiario')" @click="store.openStatus(item)">
+                            <!-- <li v-if="auth.checkPermission('cambio estado beneficiario')" @click="store.openStatus(item)">
                                 Cambiar estado
-                            </li>
+                            </li> -->
                         </ul>
                     </Drop-Down-Button>
                 </div>

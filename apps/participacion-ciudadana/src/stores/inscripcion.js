@@ -11,7 +11,9 @@ export const useInscripcionStore = defineStore('inscripcion', () => {
     const beneficiario = ref({
         sexo : 'M',
         domicilios : {
-            grupo_x_zona : {}
+            grupo_x_zona : {},
+            departamento_id : 7,
+            municipio_id : 108,
         },
         responsables : {
             sexo : 'M',
@@ -63,7 +65,9 @@ export const useInscripcionStore = defineStore('inscripcion', () => {
         beneficiario.value = {
             sexo : 'M',
             domicilios : {
-                grupo_x_zona : {}
+                grupo_x_zona : {},
+                departamento_id : 7,
+                municipio_id : 108,
             },
             responsables : {
                 sexo : 'M',

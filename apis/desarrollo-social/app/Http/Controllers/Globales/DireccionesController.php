@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Globales;
 
 use App\Http\Controllers\Controller;
+use App\Models\adm_gds\departamentos;
 use App\Models\adm_gds\grupos_x_zona;
 use App\Models\adm_gds\zonas;
 use Illuminate\Http\Request;
@@ -23,6 +24,15 @@ class DireccionesController extends Controller
     public function zonas() {
         try {
             return response(zonas::all());
+        } catch (\Throwable $th) {
+            return response($th->getMessage());
+        }
+    }
+
+    public function municipios_x_departamento(int $departamento_id) {
+        try {
+            $municipios = departamentos::with(['municipios'])->where('id',$departamento_id)->first();
+            return response($municipios);      
         } catch (\Throwable $th) {
             return response($th->getMessage());
         }

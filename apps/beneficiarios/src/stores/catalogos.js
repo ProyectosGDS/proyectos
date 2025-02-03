@@ -58,6 +58,19 @@ export const useCatalogosStore = defineStore('catalogos', () => {
         }
     }
 
+    async function fetchMunicipiosDepartamento() {
+        try {
+            if(store.beneficiario.domicilios.hasOwnProperty('departamento_id')) {
+                const departamento_id = store.beneficiario.domicilios.departamento_id
+                const response = await axios.get('municipios-por-departamento/'+ departamento_id)
+                catalogos.value.municipios = response.data.municipios
+            }
+            
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     async function fetchNiveles (id_programa) {
         loading.value.fetchPrograma = true
         try {
@@ -152,6 +165,7 @@ export const useCatalogosStore = defineStore('catalogos', () => {
 
         fetch,
         fetchGrupoZona,
+        fetchMunicipiosDepartamento,
         fetchNiveles,
         fetchCursos,
         fetchClases,

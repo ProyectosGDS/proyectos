@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ParticipacionCiudadana;
 
 use App\Http\Controllers\Controller;
+use App\Models\adm_gds\departamentos;
 use App\Models\adm_gds\enfermedades;
 use App\Models\adm_gds\escolaridad;
 use App\Models\adm_gds\estado_civil;
@@ -124,6 +125,7 @@ class InscripcionController extends Controller
         try {
 
             $catalogos = [
+                'departamentos' => departamentos::all(),
                 'etnias' => etnias::all(),
                 'estado_civil' => estado_civil::all(),
                 'vias' => vias::all(),
