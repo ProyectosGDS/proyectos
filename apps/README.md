@@ -1,6 +1,6 @@
 ## CONJUNTO DE PROYECTOS QUE CONFORMAN LA PLATAFORMA DE DESARROLLO SOCIAL
 
-Todos los proyectos estan echo usando tecnologias frameworks de front-end:
+Todos los proyectos estan echos usando tecnologias frameworks de front-end:
 
 - `Vue 3`
 - `Vue-Router`
